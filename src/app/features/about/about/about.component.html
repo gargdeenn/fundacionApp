@@ -1,0 +1,64 @@
+    <!-- src/app/about/about.component.html -->
+    <div class="container py-4">
+        <div class="jumbotron" style="background-color: #0B992D;">
+            <h2 class="display-4 text-light">Fundación Amigos del Mundo</h2>
+            <p class="lead text-light">Unidos por la justicia social y el desarrollo humano integral.</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card mb-4 rounded">
+                    <div class="card-body">
+                        <h2 class="card-title">Misión</h2>
+                        <p class="card-text text-dark">Promover la igualdad de derecho, el desarrollo integral, salud mental
+                            y salubridad de todas personas, particularmente de la infancia y adultos mayores, partiendo del
+                            desarrollo integral de las capacidades individuales y colectivas como medio para transformar la
+                            sociedad y erradicar la pobreza.</p>
+                    </div>
+                </div>
+
+                <div class="card mb-4 rounded">
+                    <div class="card-body">
+                        <h2 class="card-title">Visión</h2>
+                        <p class="card-text text-dark">Para 2043, queremos ser una organización responsable, comprometida,
+                            dinámica y participativa con justicia social y desarrollo humano integral, reconocida a nivel
+                            nacional por nuestra identidad, caracterizada por defender los derechos de la niñez y adulto
+                            mayor, del mismo modo, contribuir por el medio ambiente, para generar conciencia, comprensión y
+                            cercanía a sus problemas así mismo, el empoderamiento de aquellas personas y grupos que no
+                            cuentan con los mecanismos o la capacidad necesarios para poder satisfacer sus derechos
+                            fundamentales.</p>
+                    </div>
+                </div>
+                <div class="card mb-4 rounded">
+                    <div class="card-body">
+                        <h2 class="card-title">Objetivo general</h2>
+                        <ul class="text-dark">
+                            <li>Ofrecer protección, formación y atención integral a niños y adultos mayores en situación de
+                                riesgo y vulnerabilidad.</li>
+                        </ul>
+                    </div>
+                </div>
+    
+                <div class="card mb-4 rounded">
+                    <div class="card-body">
+                        <h2 class="card-title">Objetivos específicos</h2>
+                        <ul class="text-dark">
+                            <li>Brindar asistencia social, emocional, psicológica, legal, educativa, recreativa y moral.
+                            </li>
+                            <li>Crear proyectos sociales para personas en situación de vulnerabilidad.</li>
+                            <li>Proteger al medio ambiente y contribuir a la sostenibilidad del planeta.</li>
+                            <li>Fomentar y promocionar los derechos humanos.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div  *ngFor="let newsItem of newsItems">
+                    <div class="py-2">
+                        <img [src]="newsItem.imageUrl" class="card-img-top" alt="{{ newsItem.title }}">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

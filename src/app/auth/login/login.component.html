@@ -1,0 +1,31 @@
+<div class="container py-4">
+    <div class="card mx-auto" style="max-width: 450px; border-radius: 10px;">
+        <div class="card-body text-center">
+            <h2 class="card-title mb-4">Iniciar Sesión</h2>
+
+            <i class="fas fa-user fa-6x mb-4"></i>
+            
+            <form #frmLogin="ngForm" (ngSubmit)="onLogin(frmLogin)">
+                <div *ngIf="isLoading">
+                    <div class="spinner-border" role="status">
+                        <span class="sr-only">Cargando...</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Correo Electrónico"
+                        ngModel required>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Contraseña"
+                        ngModel required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block mt-4" style="background-color: #0B992D;">
+                    Iniciar Sesión
+                    <i class="fas fa-sign-in-alt ml-2"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

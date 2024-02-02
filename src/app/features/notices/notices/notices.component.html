@@ -1,0 +1,20 @@
+<input type="file" (change)="onFileSelected($event)">
+<button (click)="submit()">subir</button>
+<button (click)="download()">descargar</button>
+<!-- news.component.html -->
+<div class="container mt-4">
+    <h2>Últimas Noticias</h2>
+
+    <div class="row">
+        <div class="col-md-6 mb-4" *ngFor="let newsItem of newsItems">
+            <div class="card">
+                <img [src]="newsItem.imageUrl" class="card-img-top" alt="{{ newsItem.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ newsItem.title }}</h5>
+                    <p class="card-text">{{ newsItem.description }}</p>
+                    <a href="#" class="btn btn-primary">Leer más</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

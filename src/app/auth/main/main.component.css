@@ -1,0 +1,26 @@
+/* Estilo personalizado para el input de tipo file */
+.custom-file-input {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Oculta el input nativo */
+.custom-file-input input {
+    display: none;
+}
+
+/* Cambia el estilo cuando se pasa el ratón sobre el área del input */
+.custom-file-input:hover {
+    background-color: #e0e0e0;
+    border-color: #aaa;
+}
+
+.roundedd{
+    border-radius: 15px;
+}

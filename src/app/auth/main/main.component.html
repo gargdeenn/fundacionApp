@@ -1,0 +1,87 @@
+<div class="container py-4">
+    <div class="row">
+        <!-- Card de Registro de Usuarios -->
+        <div class="col-md-6">
+            <div class="card roundedd">
+                <div class="card-header rounded bg-success text-white">
+                    Registro de Usuarios
+                </div>
+                <div class="card-body">
+                    <form (ngSubmit)="submitUserForm()" #userForm="ngForm">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <input placeholder="Nombre" type="text" class="form-control" id="name" name="name"
+                                    [(ngModel)]="userData.name" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input placeholder="Contraseña" type="password" class="form-control" id="password" name="password"
+                                    [(ngModel)]="userData.password" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <input placeholder="Teléfono" type="text" class="form-control" id="cellphone" name="cellphone"
+                                    [(ngModel)]="userData.cellphone" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input placeholder="Correo Electrónico" type="email" class="form-control" id="email" name="email"
+                                    [(ngModel)]="userData.email" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="rol_id">Tipo de usuario</label>
+                            <select class="form-control" id="rol_id" name="rol_id" [(ngModel)]="userData.rol_id"
+                                required>
+                                <option value="1">ADMINISTRADOR</option>
+                                <option value="2">USUARIO</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Registrar Usuario</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card de Agregar Eventos -->
+        <div class="col-md-6">
+            <div class="card roundedd">
+                <div class="card-header rounded bg-success text-white">
+                    Agregar Evento
+                </div>
+                <div class="card-body">
+                    <form (ngSubmit)="submitNewsForm()" #newsForm="ngForm">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <input placeholder="Titulo" type="text" class="form-control" id="title" name="title"
+                                    [(ngModel)]="newsData.title" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="image_url" name="image_url"
+                                        (change)="handleImageUpload($event)" accept="image/*" required>
+                                    <label class="custom-file-label" for="image_url">Cargue la imagen</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <textarea placeholder="Descripción" class="form-control" id="description" name="description"
+                                    [(ngModel)]="newsData.description" required></textarea>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <select class="form-control" id="type_event_id" name="type_event_id"
+                                    [(ngModel)]="newsData.type_event_id" required>
+                                    <option value="0" disabled selected>Seleccionar Evento</option>
+                                    <option value="1">ACTIVIDAD</option>
+                                    <option value="2">NOTICIA</option>
+                                    <option value="3">POSTER</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Agregar Noticia</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
