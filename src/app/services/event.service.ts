@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Event } from '../models/event';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import { Event } from '../models/event';
 export class EventService {
   private apiUrl:string = environment.urlApiAuth;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private toast: ToastrService) {}
 
   create(event: any): Observable<any> {
     const formData = new FormData();
@@ -22,9 +22,16 @@ export class EventService {
     return this.http.post<any>(`${this.apiUrl}/event`, formData).pipe(tap(
       (res) => {
         if (res) {
-          console.log(res);
+          this.toast.success('¡Evento creado con éxito!');
         }
+      }, error => {
+        this.toast.error('Oh oh! ¡Ha ocurrido un problema!');
       }
     ));
   }
+
+  getImg(type_event_id: string): Observable<Event[]> {
+    return this.http.get<Event[]>(`http://127.0.0.1:8000/api/event/${type_event_id}`);
+  }
+
 }

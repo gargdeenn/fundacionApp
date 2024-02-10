@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Event } from 'src/app/models/event';
+import { EventService } from 'src/app/services/event.service';
 
 @Component({
   selector: 'app-notices',
@@ -6,23 +8,26 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./notices.component.css']
 })
 export class NoticesComponent implements OnInit {
+  type_event_id: string = "2";
+  imageList: any;
 
-  selectedFile!: File;
-  file!: File;
+  event: Event = {
+    title:'',
+    description:'',
+    image: '',
+    type_event_id:''
+  };
 
-  constructor(){
+  constructor(private eventService: EventService){
   }
+
   ngOnInit(): void {
-
-  }
-  onFileSelected(event: any): void {
-    this.selectedFile = event.target.files[0];
-  }
-  submit(): void{
+    this.eventService.getImg(this.type_event_id).subscribe( data => {
+      this.imageList = data;
+      console.log(data);
+    })
   }
 
-  download(): void {
-  }
   newsItems = [
     {
       title: 'Título de la noticia 1',
