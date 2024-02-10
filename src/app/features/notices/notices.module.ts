@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { NoticesRoutingModule } from './notices-routing.module';
 import { NoticesComponent } from './notices/notices.component';
-import { ImageService } from './service/image.service';
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -16,6 +15,6 @@ import { HttpClientModule } from '@angular/common/http';
     NoticesRoutingModule,
     HttpClientModule
   ],
-  providers: [ImageService]
+  providers: []
 })
 export class NoticesModule { }

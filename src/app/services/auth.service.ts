@@ -2,37 +2,43 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../models/user';
 import { JwtResponse } from '../models/jwt-response';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  auth_server:string = 'http://localhost:8000/api/auth';
-  authSubject = new BehaviorSubject(false);
+  private auth_server:string = environment.urlApiAuth;
   private token!: any;
-  
-  constructor(private httpClient: HttpClient) { }
 
-  register(user: User): Observable<JwtResponse>{
-    return this.httpClient.post<JwtResponse>(`${this.auth_server}/register`, user)
+  constructor(private httpClient: HttpClient, private toast: ToastrService) { }
+
+  register(user: User): Observable<User>{
+    return this.httpClient.post<User>(`${this.auth_server}/user`, user)
     .pipe(tap(
-      (res: JwtResponse) => {
+      (res: User) => {
         if (res) {
-          
+          this.mostrarToastExito('Usuario creado con éxito!');
         }
+      }, (error: any) => {
+          this.mostrarToastError(error);
       }
     ));
   }
-  
+
   login(user: User): Observable<JwtResponse>{
     return this.httpClient.post<JwtResponse>(`${this.auth_server}/login`, user)
     .pipe(tap(
       (res) => {
         if (res) {
           this.saveToken(res.access_token, res.expires_in, res.user);
+          this.mostrarToastExito('Bienvenid@!');
         }
-      },
+      },(error: any) => {
+          this.mostrarToastError('Usuario o contraseña incorrecta!');
+      }
     ));
   }
 
@@ -59,6 +65,14 @@ export class AuthService {
 
   getUser(): any{
     return JSON.parse(localStorage.getItem("USER") || '{}');
+  }
+
+  mostrarToastExito(mensaje: string) {
+    this.toast.success(mensaje, '🥳');
+  }
+
+  mostrarToastError(mensaje: string) {
+    this.toast.error(mensaje, '😓');
   }
 
 }

@@ -1,26 +1,50 @@
 /* Estilo personalizado para el input de tipo file */
 .custom-file-input {
-    display: inline-block;
-    cursor: pointer;
-    font-size: 14px;
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-    color: #333;
+  display: inline-block;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+  color: #333;
 }
 
 /* Oculta el input nativo */
 .custom-file-input input {
-    display: none;
+  display: none;
 }
 
 /* Cambia el estilo cuando se pasa el ratón sobre el área del input */
 .custom-file-input:hover {
-    background-color: #e0e0e0;
-    border-color: #aaa;
+  background-color: #e0e0e0;
+  border-color: #aaa;
 }
 
-.roundedd{
-    border-radius: 15px;
+.roundedd {
+  border-radius: 15px;
+}
+
+@media (max-width: 700px) {
+  img {
+    width: 230px;
+    
+  }
+}
+
+.custom-header {
+  background-color: #0b992d; /* Color de fondo del encabezado */
+  color: white; /* Color del texto en el encabezado */
+}
+
+.custom-odd-row {
+  background-color: white; /* Color de fondo de las filas impares */
+}
+
+.custom-even-row {
+  background-color: #e9ecef; /* Color de fondo de las filas pares */
+}
+
+.modal-dialog {
+  margin-top: 100px !important;
 }

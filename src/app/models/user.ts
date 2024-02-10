@@ -3,5 +3,5 @@ export interface User {
     password:string,
     name:string,
     cellphone:string,
-    rolId:string
+    rol_id:string
 }

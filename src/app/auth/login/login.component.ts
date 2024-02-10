@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { User } from 'src/app/models/user';
-import { Form, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +21,6 @@ export class LoginComponent implements OnInit {
     },
     error => {
       this.isLoading = false;
-      alert('Correo o contraseña incorrecta!')
     }
   )}
 }

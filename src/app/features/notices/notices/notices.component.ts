@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ImageService } from '../service/image.service';
 
 @Component({
   selector: 'app-notices',
@@ -10,26 +9,19 @@ export class NoticesComponent implements OnInit {
 
   selectedFile!: File;
   file!: File;
-  constructor(private imageService: ImageService){
-    console.log(this.imageService)
+
+  constructor(){
   }
   ngOnInit(): void {
-    
+
   }
   onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
   }
   submit(): void{
-    this.imageService.uploadImage(this.selectedFile).subscribe(response => {
-      alert(response);
-    })
   }
 
   download(): void {
-    this.imageService.downloadImage('image').subscribe(response => {
-      this.file = response;
-      console.log(this.file);
-    })
   }
   newsItems = [
     {

@@ -1,87 +1,217 @@
 <div class="container py-4">
-    <div class="row">
-        <!-- Card de Registro de Usuarios -->
-        <div class="col-md-6">
-            <div class="card roundedd">
-                <div class="card-header rounded bg-success text-white">
-                    Registro de Usuarios
-                </div>
-                <div class="card-body">
-                    <form (ngSubmit)="submitUserForm()" #userForm="ngForm">
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <input placeholder="Nombre" type="text" class="form-control" id="name" name="name"
-                                    [(ngModel)]="userData.name" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <input placeholder="Contraseña" type="password" class="form-control" id="password" name="password"
-                                    [(ngModel)]="userData.password" required>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <input placeholder="Teléfono" type="text" class="form-control" id="cellphone" name="cellphone"
-                                    [(ngModel)]="userData.cellphone" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <input placeholder="Correo Electrónico" type="email" class="form-control" id="email" name="email"
-                                    [(ngModel)]="userData.email" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="rol_id">Tipo de usuario</label>
-                            <select class="form-control" id="rol_id" name="rol_id" [(ngModel)]="userData.rol_id"
-                                required>
-                                <option value="1">ADMINISTRADOR</option>
-                                <option value="2">USUARIO</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Registrar Usuario</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+  <div class="row">
+    <div class="col-md-6 my-4">
+      <h4>USUARIOS</h4>
+      <table class="table">
+        <thead>
+          <tr class="custom-header"> <!-- Aplica estilos personalizados al encabezado -->
+            <th scope="col">Nombre</th>
+            <th scope="col">Tipo de usuario</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Eliminar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container
+            *ngFor="let user of users | paginate: { itemsPerPage: pageSize, currentPage: currentPage } ; index as i">
+            <tr [class.custom-odd-row]="i % 2 === 0" [class.custom-even-row]="i % 2 !== 0">
+              <td>{{ user.name }}</td>
+              <td>
+                <span *ngIf="user.rol_id === 1">
+                  ADMIN
+                </span>
+                <span *ngIf="user.rol_id === 2">
+                  USUARIO
+                </span>
+              </td>
+              <td>
 
-        <!-- Card de Agregar Eventos -->
-        <div class="col-md-6">
-            <div class="card roundedd">
-                <div class="card-header rounded bg-success text-white">
-                    Agregar Evento
-                </div>
-                <div class="card-body">
-                    <form (ngSubmit)="submitNewsForm()" #newsForm="ngForm">
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <input placeholder="Titulo" type="text" class="form-control" id="title" name="title"
-                                    [(ngModel)]="newsData.title" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <div class="custom-file">
-                                    <input type="file" class="custom-file-input" id="image_url" name="image_url"
-                                        (change)="handleImageUpload($event)" accept="image/*" required>
-                                    <label class="custom-file-label" for="image_url">Cargue la imagen</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <textarea placeholder="Descripción" class="form-control" id="description" name="description"
-                                    [(ngModel)]="newsData.description" required></textarea>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <select class="form-control" id="type_event_id" name="type_event_id"
-                                    [(ngModel)]="newsData.type_event_id" required>
-                                    <option value="0" disabled selected>Seleccionar Evento</option>
-                                    <option value="1">ACTIVIDAD</option>
-                                    <option value="2">NOTICIA</option>
-                                    <option value="3">POSTER</option>
-                                </select>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Agregar Noticia</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+                <span type="button" data-toggle="modal" data-target="#exampleModal">
+                  <i class="fas fa-arrow-right custom" aria-hidden="true"></i>
+                </span>
+
+              </td>
+              <td>
+                <a href="">
+                  <span (click)="alert()">
+                    <i class="fas fa-trash custom" aria-hidden="true"></i>
+                  </span>
+                </a>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+      <pagination-controls (pageChange)="pageChangedUser($event)" previousLabel="Anterior"
+        nextLabel="Siguiente"></pagination-controls>
     </div>
+    <div class="col-md-6 my-4">
+      <h4>EVENTOS</h4>
+      <table class="table">
+        <thead>
+          <tr class="custom-header"> <!-- Aplica estilos personalizados al encabezado -->
+            <th scope="col">Nombre</th>
+            <th scope="col">Tipo de usuario</th>
+            <th scope="col">Editar</th>
+            <th scope="col">Eliminar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container
+            *ngFor="let user of users | paginate: { itemsPerPage: pageSize, currentPage: currentPage } ; index as i">
+            <tr [class.custom-odd-row]="i % 2 === 0" [class.custom-even-row]="i % 2 !== 0">
+              <td>{{ user.name }}</td>
+              <td>{{ user.rol_id }}</td>
+              <td>
+                <a href="">
+                  <span>
+                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                  </span>
+                </a>
+              </td>
+              <td>
+                <a href="">
+                  <span (click)="alert()">
+                    <i class="fas fa-trash" aria-hidden="true"></i>
+                  </span>
+                </a>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+      <pagination-controls (pageChange)="pageChangedEvent($event)" previousLabel="Anterior"
+        nextLabel="Siguiente"></pagination-controls>
+    </div>
+    <!-- Card de Registro de Usuarios -->
+    <div class="col-md-6">
+      <div class="card roundedd">
+        <div class="card-header rounded bg-success text-white">
+          Registro de Usuarios
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="submitUser()" #userForm="ngForm">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <input placeholder="Nombre" type="text" class="form-control" id="name" name="name"
+                  [(ngModel)]="userData.name" required>
+              </div>
+              <div class="form-group col-md-6">
+                <input placeholder="Contraseña" type="password" class="form-control" id="password" name="password"
+                  [(ngModel)]="userData.password" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <input placeholder="Teléfono" type="text" class="form-control" id="cellphone" name="cellphone"
+                  [(ngModel)]="userData.cellphone" required>
+              </div>
+              <div class="form-group col-md-6">
+                <input placeholder="Correo Electrónico" type="email" class="form-control" id="email" name="email"
+                  [(ngModel)]="userData.email" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="rol_id">Tipo de usuario</label>
+              <select class="form-control" id="rol_id" name="rol_id" [(ngModel)]="userData.rol_id" required>
+                <option value="1">ADMINISTRADOR</option>
+                <option value="2">USUARIO</option>
+              </select>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6">
+                <button type="submit" class="btn btn-custom">Registrar Usuario</button>
+              </div>
+              <div class="form-group col-md-6" *ngIf="isLoadingRegister">
+                <div class="spinner-border" role="status">
+                  <span class="sr-only">Cargando...</span>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card de Agregar Eventos -->
+    <div class="col-md-6">
+      <div class="card roundedd">
+        <div class="card-header rounded bg-success text-white">
+          Agregar Evento
+        </div>
+        <div class="card-body">
+          <form (ngSubmit)="submitEvent()" #newsForm="ngForm">
+            <div class="form-group">
+              <input placeholder="Titulo" type="text" class="form-control" id="title" name="title"
+                [(ngModel)]="event.title" required>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <textarea placeholder="Descripción" class="form-control" id="description" name="description"
+                  [(ngModel)]="event.description" required></textarea>
+              </div>
+              <div class="form-group col-md-6">
+                <select class="form-control" id="type_event_id" name="type_event_id" [(ngModel)]="event.type_event_id"
+                  required>
+                  <option value="" disabled selected>Seleccionar Evento</option>
+                  <option value="1">ACTIVIDAD</option>
+                  <option value="2">NOTICIA</option>
+                  <option value="3">POSTER</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="image" name="image"
+                    (change)="onFileSelected($event)" accept="image/*" required>
+                  <label class="custom-file-label" for="image">Cargar imagen</label>
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <div *ngIf="previsualizacion">
+                  <img [src]="previsualizacion" width="100px" alt="evento">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6">
+                <button type="submit" class="btn btn-custom">Agregar Noticia</button>
+              </div>
+              <div class="form-group col-md-6" *ngIf="isLoadingEvent">
+                <div class="spinner-border" role="status">
+                  <span class="sr-only">Cargando...</span>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- --------------------------------------------------------------------------------------------------- -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-top modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text">
+        <input type="text">
+        <input type="text">
+        <input type="text">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary">Guardar cambios</button>
+      </div>
+    </div>
+  </div>
 </div>

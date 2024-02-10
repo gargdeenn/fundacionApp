@@ -9,6 +9,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
 import { AuthGuard } from '../services/auth.guard';
 import { MainComponent } from './main/main.component';
+import { ToastrService } from 'ngx-toastr';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -21,8 +23,9 @@ import { MainComponent } from './main/main.component';
     CommonModule,
     AuthRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxPaginationModule
   ],
-  providers: [AuthService, AuthGuard]
+  providers: [AuthService, AuthGuard, ToastrService]
 })
 export class AuthModule { }
