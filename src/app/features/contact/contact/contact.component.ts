@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Contact } from 'src/app/models/contact';
 import { MessageService } from 'src/app/services/message.service';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-contact',
@@ -17,7 +18,7 @@ export class ContactComponent implements OnInit {
     cellphone:'',
     message:''
   }
-  constructor(private messageService: MessageService) { }
+  constructor(private messageService: MessageService, private viewportScroller: ViewportScroller) { }
 
   ngOnInit(): void {
   }
@@ -26,9 +27,11 @@ export class ContactComponent implements OnInit {
     this.isLoadingContact = true;
     this.messageService.create(this.message).subscribe( response => {
       this.isLoadingContact = false;
+      this.viewportScroller.scrollToPosition([0, 0]);
     },
     error => {
       this.isLoadingContact = false;
+      this.viewportScroller.scrollToPosition([0, 0]);
     })
   }
 

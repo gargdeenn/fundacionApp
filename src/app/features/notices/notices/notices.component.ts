@@ -12,6 +12,7 @@ export class NoticesComponent implements OnInit {
   imageList: any;
 
   event: Event = {
+    id: '',
     title:'',
     description:'',
     image: '',
@@ -27,19 +28,5 @@ export class NoticesComponent implements OnInit {
       console.log(data);
     })
   }
-
-  newsItems = [
-    {
-      title: 'Título de la noticia 1',
-      description: 'Descripción de la noticia 1.',
-      imageUrl: 'https://placekitten.com/300/200' // Imagen de prueba
-    },
-    {
-      title: 'Título de la noticia 2',
-      description: 'Descripción de la noticia 2.',
-      imageUrl: 'https://placekitten.com/300/200' // Imagen de prueba
-    },
-    // Agrega más noticias según sea necesario
-  ];
 
 }

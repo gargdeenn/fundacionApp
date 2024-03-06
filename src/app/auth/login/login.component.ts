@@ -17,10 +17,12 @@ export class LoginComponent implements OnInit {
   onLogin(form: any): void {
     this.isLoading = true;
     this.authService.login(form.value).subscribe(res => {
-      this.router.navigateByUrl('/auth/main');
+      // this.router.navigateByUrl('/auth/main');
+      window.location.replace('/auth/main');
     },
     error => {
       this.isLoading = false;
-    }
-  )}
+    });
+  }
+
 }

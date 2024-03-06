@@ -6,6 +6,7 @@ import { Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +14,9 @@ export class AuthService {
   private auth_server:string = environment.urlApiAuth;
   private token!: any;
 
-  constructor(private httpClient: HttpClient, private toast: ToastrService) { }
+  constructor(private httpClient: HttpClient,
+              private toast: ToastrService
+              ) { }
 
   register(user: User): Observable<User>{
     return this.httpClient.post<User>(`${this.auth_server}/user`, user)
@@ -42,10 +45,13 @@ export class AuthService {
     ));
   }
 
-  logout(): void{
+  logout(): Observable<any>{
     this.token = '';
     localStorage.removeItem("ACCESS_TOKEN");
     localStorage.removeItem("EXPIRES_IN");
+    localStorage.removeItem("USER");
+    window.location.replace('/home');
+    return <any>false;
   }
 
   saveToken(token: string, expiresIn: string, user: User): void{

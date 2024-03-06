@@ -11,6 +11,7 @@ import { AuthGuard } from '../services/auth.guard';
 import { MainComponent } from './main/main.component';
 import { ToastrService } from 'ngx-toastr';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 
 @NgModule({
@@ -24,7 +25,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     AuthRoutingModule,
     FormsModule,
     HttpClientModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    ImageCropperModule
   ],
   providers: [AuthService, AuthGuard, ToastrService]
 })

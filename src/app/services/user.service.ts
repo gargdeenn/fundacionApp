@@ -22,4 +22,23 @@ export class UserService {
     ))
   }
 
+  delete(id: any): Observable<User>{
+    return this.http.delete<User>(`${this.urlAuth}/user/${id}`).pipe(tap(
+      (res: User) => {
+        return res;
+      }, error => {
+        return error;
+      }
+    ))
+  }
+
+  put(user: User): Observable<User>{
+    return this.http.put<User>(`${this.urlAuth}/userPut`, user).pipe(tap(
+      (res: User) => {
+        return res;
+      }, error =>{
+        return error;
+      }
+    ))
+  }
 }

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
   {
@@ -29,11 +30,16 @@ const routes: Routes = [
     loadChildren: () => import('./features/activities/activities.module').then(m => m.ActivitiesModule),
   },
   {
+    path: 'seeMore/:id',
+    loadChildren: () => import('./features/see-more/see-more.module').then(m => m.SeeMoreModule),
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   },
   {path: '**', redirectTo: '/home', pathMatch: 'full'}
-  
+
   // {
   //   path: 'auth',
   //   loadChildren: () =>

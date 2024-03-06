@@ -26,17 +26,15 @@
               </td>
               <td>
 
-                <span type="button" data-toggle="modal" data-target="#exampleModal">
-                  <i class="fas fa-arrow-right custom" aria-hidden="true"></i>
+                <span type="button" data-toggle="modal" data-target="#editModal" (click)="initEditUser(user)">
+                  <i class="fas fa-pen custom" aria-hidden="true"></i>
                 </span>
 
               </td>
               <td>
-                <a href="">
-                  <span (click)="alert()">
-                    <i class="fas fa-trash custom" aria-hidden="true"></i>
-                  </span>
-                </a>
+                <span type="button" data-toggle="modal" data-target="#deleteModal" (click)="initUserDelete(user)">
+                  <i class="fas fa-trash custom" aria-hidden="true"></i>
+                </span>
               </td>
             </tr>
           </ng-container>
@@ -50,28 +48,38 @@
       <table class="table">
         <thead>
           <tr class="custom-header"> <!-- Aplica estilos personalizados al encabezado -->
-            <th scope="col">Nombre</th>
-            <th scope="col">Tipo de usuario</th>
+            <th scope="col">Titulo</th>
+            <th scope="col">Tipo de evento</th>
             <th scope="col">Editar</th>
             <th scope="col">Eliminar</th>
           </tr>
         </thead>
         <tbody>
           <ng-container
-            *ngFor="let user of users | paginate: { itemsPerPage: pageSize, currentPage: currentPage } ; index as i">
+            *ngFor="let event of events | paginate: { itemsPerPage: pageSize, currentPage: currentPage } ; index as i">
             <tr [class.custom-odd-row]="i % 2 === 0" [class.custom-even-row]="i % 2 !== 0">
-              <td>{{ user.name }}</td>
-              <td>{{ user.rol_id }}</td>
+              <td>{{ event.title }}</td>
               <td>
-                <a href="">
-                  <span>
-                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                <span *ngIf="event.type_event_id === 1">
+                  ACTIVIDAD
+                </span>
+                <span *ngIf="event.type_event_id === 2">
+                  NOTICIA
+                </span>
+                <span *ngIf="event.type_event_id === 3">
+                  POSTER
+                </span>
+              </td>
+              <td>
+                <a>
+                  <span (click)="initEditEvent(event)">
+                    <i class="fas fa-pen" aria-hidden="true" data-toggle="modal" data-target="#editEventModal"></i>
                   </span>
                 </a>
               </td>
               <td>
-                <a href="">
-                  <span (click)="alert()">
+                <a>
+                  <span data-toggle="modal" data-target="#deleteModalEvent" (click)="initDelete(event)">
                     <i class="fas fa-trash" aria-hidden="true"></i>
                   </span>
                 </a>
@@ -112,8 +120,8 @@
               </div>
             </div>
             <div class="form-group">
-              <label for="rol_id">Tipo de usuario</label>
               <select class="form-control" id="rol_id" name="rol_id" [(ngModel)]="userData.rol_id" required>
+                <option value="" disabled selected>Seleccionar tipo de usuario</option>
                 <option value="1">ADMINISTRADOR</option>
                 <option value="2">USUARIO</option>
               </select>
@@ -141,14 +149,10 @@
         </div>
         <div class="card-body">
           <form (ngSubmit)="submitEvent()" #newsForm="ngForm">
-            <div class="form-group">
-              <input placeholder="Titulo" type="text" class="form-control" id="title" name="title"
-                [(ngModel)]="event.title" required>
-            </div>
             <div class="form-row">
               <div class="form-group col-md-6">
-                <textarea placeholder="Descripción" class="form-control" id="description" name="description"
-                  [(ngModel)]="event.description" required></textarea>
+                <input placeholder="Titulo" type="text" class="form-control" id="title" name="title"
+                  [(ngModel)]="event.title" required>
               </div>
               <div class="form-group col-md-6">
                 <select class="form-control" id="type_event_id" name="type_event_id" [(ngModel)]="event.type_event_id"
@@ -160,17 +164,30 @@
                 </select>
               </div>
             </div>
+            <div class="form-group">
+              <textarea placeholder="Descripción" class="form-control" id="description" name="description"
+                [(ngModel)]="event.description" required></textarea>
+            </div>
+            <div class="form-row">
+
+            </div>
             <div class="form-row">
               <div class="form-group col-md-6">
                 <div class="custom-file">
                   <input type="file" class="custom-file-input" id="image" name="image"
-                    (change)="onFileSelected($event)" accept="image/*" required>
+                    (change)="fileChangeEvent($event)" accept="image/*" required>
                   <label class="custom-file-label" for="image">Cargar imagen</label>
                 </div>
               </div>
               <div class="form-group col-md-6">
-                <div *ngIf="previsualizacion">
-                  <img [src]="previsualizacion" width="100px" alt="evento">
+                <div>
+                  <!-- <img [src]="croppedImage" width="200px" alt="evento"> -->
+                  <div class="viewImage">
+                    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                      [aspectRatio]="4 / 3" format="png" (imageCropped)="imageCropped($event)"
+                      (imageLoaded)="imageLoaded($event)" (cropperReady)="cropperReady()"
+                      (loadImageFailed)="loadImageFailed()"></image-cropper>
+                  </div>
                 </div>
               </div>
             </div>
@@ -192,26 +209,136 @@
   </div>
 </div>
 
-<!-- --------------------------------------------------------------------------------------------------- -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+<!-- ----------------------------EditUserModal----------------------------------------------------------------------- -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModal" aria-hidden="true">
   <div class="modal-dialog modal-dialog-top modal-dialog-scrollable" role="document">
     <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <input type="text">
-        <input type="text">
-        <input type="text">
-        <input type="text">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary">Guardar cambios</button>
-      </div>
+      <form (ngSubmit)="editUser()" #userEditForm="ngForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Editar usuario</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <input placeholder="Nombre" type="text" class="form-control" id="name" name="name"
+                [(ngModel)]="updateUserData.name" required>
+            </div>
+            <div class="form-group col-md-6">
+              <input placeholder="Teléfono" type="text" class="form-control" id="cellphone" name="cellphone"
+                [(ngModel)]="updateUserData.cellphone" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <input placeholder="Correo Electrónico" type="email" class="form-control" id="email" name="email"
+                [(ngModel)]="updateUserData.email" disabled required>
+            </div>
+            <div class="form-group col-md-6">
+              <select class="form-control" id="rol_id" name="rol_id" [(ngModel)]="updateUserData.rol_id" required>
+                <option value="" disabled selected>Seleccionar tipo de usuario</option>
+                <option value="1">ADMINISTRADOR</option>
+                <option value="2">USUARIO</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-custom">Guardar cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- --------------------------EditEventModal------------------------------------------------------------------------- -->
+<div class="modal fade" id="editEventModal" tabindex="-1" role="dialog" aria-labelledby="editEventModal"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-top modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <form (ngSubmit)="editEvent()" #userEditForm="ngForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Editar evento</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="submitEvent()" #newsForm="ngForm">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <input placeholder="Titulo" type="text" class="form-control" id="title" name="title"
+                  [(ngModel)]="updateEvent.title" required>
+              </div>
+              <div class="form-group col-md-6">
+                <select class="form-control" id="type_event_id" name="type_event_id" [(ngModel)]="updateEvent.type_event_id"
+                  required>
+                  <option value="" disabled selected>Seleccionar Evento</option>
+                  <option value="1">ACTIVIDAD</option>
+                  <option value="2">NOTICIA</option>
+                  <option value="3">POSTER</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <textarea placeholder="Descripción" class="form-control" id="description" name="description"
+                [(ngModel)]="updateEvent.description" required></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-custom">Guardar cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- --------------------------------------------------------------------------------------------------------- -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-top modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <form (ngSubmit)="deleteUser()" #userDeleteForm="ngForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Eliminar usuario</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ¿Está seguro que desea eliminar este usuario?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-custom">Eliminar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- --------------------------------------------------------------------------------------------------------- -->
+<div class="modal fade" id="deleteModalEvent" tabindex="-1" role="dialog" aria-labelledby="deleteModalEvent"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-top modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <form (ngSubmit)="deleteEvent()" #userDeleteForm="ngForm">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Eliminar evento</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ¿Está seguro que desea eliminar este evento?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-custom">Eliminar</button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

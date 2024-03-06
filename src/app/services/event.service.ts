@@ -3,12 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ToastrService } from 'ngx-toastr';
+import { Event } from '../models/event';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventService {
   private apiUrl:string = environment.urlApiAuth;
+  private apiUrlNoAuth = environment.urlApi;
 
   constructor(private http: HttpClient, private toast: ToastrService) {}
 
@@ -17,7 +19,7 @@ export class EventService {
     formData.append('title', event.title);
     formData.append('description', event.description);
     formData.append('type_event_id', event.type_event_id);
-    formData.append('image', event.image);
+    formData.append('image', event.image, event.title.substring(0, 10).trim());
     console.log(event)
     return this.http.post<any>(`${this.apiUrl}/event`, formData).pipe(tap(
       (res) => {
@@ -31,7 +33,29 @@ export class EventService {
   }
 
   getImg(type_event_id: string): Observable<Event[]> {
-    return this.http.get<Event[]>(`http://127.0.0.1:8000/api/event/${type_event_id}`);
+    return this.http.get<Event[]>(`${this.apiUrlNoAuth}/event/${type_event_id}`);
+  }
+
+  getEventId(id: string): Observable<Event>{
+    return this.http.get<Event>(`${this.apiUrlNoAuth}/event_id/${id}`);
+  }
+
+  getEvents(): Observable<Event> {
+    return this.http.get<Event>(`${this.apiUrl}/event`);
+  }
+
+  delete(id: any): Observable<Event> {
+    return this.http.delete<Event>(`${this.apiUrl}/event/${id}`)
+  }
+
+  put(event: Event): Observable<Event>{
+    return this.http.put<Event>(`${this.apiUrl}/eventPut`, event).pipe(tap(
+      (res: Event) => {
+        return res;
+      }, error => {
+        return error;
+      }
+    ))
   }
 
 }

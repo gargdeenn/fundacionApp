@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ActivitiesComponent } from './activities/activities.component';
+import { SeeMoreComponent } from './see-more/see-more.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ActivitiesComponent
+    component: SeeMoreComponent
   }
 ];
 
@@ -13,4 +13,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ActivitiesRoutingModule { }
+export class SeeMoreRoutingModule { }

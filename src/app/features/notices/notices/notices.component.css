@@ -1,8 +1,28 @@
 /* styles.css */
 .card {
-    transition: transform 0.2s;
+  transition: transform 0.2s;
 }
 
 .card:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
+}
+img {
+  width: auto; /* Define el ancho */
+}
+
+.image-container {
+  overflow-y: auto;
+  scrollbar-width: thin; /* Ancho del scroll más delgado */
+  scrollbar-color: #999 transparent; /* Color del scroll */
+}
+
+/* Estilos específicos para WebKit (Chrome, Safari) */
+.image-container::-webkit-scrollbar {
+  width: 8px; /* Ancho del scroll */
+  height: 8px; /* Altura del scroll */
+}
+
+.image-container::-webkit-scrollbar-thumb {
+  background-color: #999; /* Color del scroll */
+  border-radius: 10px; /* Borde redondeado */
 }
